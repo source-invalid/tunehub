@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Welcome Creator to TuneHub</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub | Creator
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home' class="active">Home</a>
+			<a href='/manageSongs' class="nav-menu">Manage Songs</a>
+			<a href='/managePlaylists' class="nav-menu">Manage Playlists</a>
+			<a href="/map-about" class="nav-menu">About</a>
+			<a href="/map-account" class="nav-menu">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="view-div">
+				<div id="welcome-text">
+					Hey Creator, Welcome back to TuneHub
+					
+				</div>
+				<div>
+					<a href="/map-addSong"><button class="index-btn">Add Song</button></a>
+					<a href="/map-createPlaylist"><button class="index-btn">Create Playlist</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

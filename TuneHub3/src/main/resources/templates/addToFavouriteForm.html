@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Add to Favourite</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+<script>
+    function validateForm() {
+        var selectedSongs = document.querySelectorAll('input[name="song_id"]:checked');
+        if (selectedSongs.length === 0) {
+            alert("Please select at least one song.");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home'  class="nav-menu">Home</a>
+			<a href='/exploreSongs'  class="nav-menu">Songs</a>
+			<a href='/explorePlaylists'  class="nav-menu">Playlists</a>
+			<a href='/exploreFavourites'  class="active">Favourites</a>
+			<a href="/map-about"  class="nav-menu">About</a>
+			<a href="/map-account"  class="nav-menu">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="card-div">
+				<h4>Favourites</h4>
+				<div th:switch="${status}">
+					<div th:case="'EmptyList'">
+							<h4>Sorry, no songs available.</h4>
+					</div>
+					
+					<div th:case="'addFavSuccess'">
+						<h4>Successfully added selected songs to your favourites.</h4>
+						<a href='/exploreFavourites'><button class="div-btn">View</button></a>
+					</div>
+					<div th:case="*">
+						<form action="/addToFavourite" method="post" onsubmit="return validateForm()" id="form">
+							<span>Select songs to add to your Favourites :</span>
+							<div class="table-div">
+								<table >
+									<!-- 
+									<thead>
+										<tr>
+											<td>Select</td>
+											<td>Song Name</td>
+										</tr>
+									</thead>
+									 -->
+									<tbody>
+										<tr th:each="song : ${songslist}">
+											<td><input type="checkbox" th:name="song_id" th:value="${song.id}"/></td>
+											<td th:text="${song.name}"></td>
+											<td>
+												<audio controls="controls" controlslist="nodownload">
+													<source th:src=${song.link} type="audio/mpeg">
+												</audio>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+							<input type="submit" id="submit-btn" value="Add" class="div-btn"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

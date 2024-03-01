@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Account Details</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub | Creator
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home' class="nav-menu">Home</a>
+			<a href='/manageSongs' class="nav-menu">Manage Songs</a>
+			<a href='/managePlaylists' class="nav-menu">Manage Playlists</a>
+			<a href="/map-about" class="nav-menu">About</a>
+			<a href="/map-account" class="active">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="card-div">
+				<h3>Your Profile :</h3>
+				<table>
+					<tbody>
+						<tr>
+							<td>Name</td>
+							<td>:</td>
+							<td th:text=${user.name}></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td>:</td>
+							<td th:text=${user.email}></td>
+						</tr>
+						<tr>
+							<td>Gender</td>
+							<td>:</td>
+							<td th:text=${user.gender}></td>
+						</tr>
+						<tr>
+							<td>Role</td>
+							<td>:</td>
+							<td th:text=${user.role}></td>
+						</tr>
+					</tbody>
+				</table>
+				<div>
+					<a href="/deleteAccount"><button class="div-btn">Delete A/c</button></a>
+					<a href="/logout"><button class="div-btn">Logout</button></a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

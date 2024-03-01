@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub
+		</div>
+		<div class="navigation-element">
+			<a href="/map-home" class="nav-menu">Home</a>
+			<a href="/map-about" class="nav-menu">About</a>
+			<a href="/map-register"><button class="nav-menu-btn">Register</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div id="login-form-div">
+				<form action="/login" method="post" id="login-form">
+					<label>Login into your account</label>
+					<br/>
+					<span th:text=${msg} class="msg"></span>
+					<br/>
+					<input type='text' name='email' placeholder="Email" required="required" id="text-field"/>
+					<br/>
+					<input type='password' name='password' placeholder="Password" required="required" id="text-field"/>
+					<br/>
+					<input type='submit' value='Login' id="login-btn"/>
+				</form>
+				<br/>
+					<span th:text=${errorMsg} class="error-msg"></span>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

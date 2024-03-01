@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Explore Playlists</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home'  class="nav-menu">Home</a>
+			<a href='/exploreSongs'  class="nav-menu">Songs</a>
+			<a href='/explorePlaylists'  class="active">Playlists</a>
+			<a href='/exploreFavourites'  class="nav-menu">Favourites</a>
+			<a href="/map-about"  class="nav-menu">About</a>
+			<a href="/map-account"  class="nav-menu">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="card-div">
+				<h4>Explore Playlists</h4>
+				<div th:switch="${status}">
+					<div th:case="'EmptyList'">
+							<h4>Sorry, no playlists available.</h4>
+					</div>
+					<div th:case="*" class="table-div">
+						<table border>
+							<thead>
+								<tr>
+									<td>Playlist Name</td>
+									<td>Playlist Songs</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each = "playlist : ${playlists}">
+									<td th:text=${playlist.name}></td>
+									<td>
+										<table>
+											<!--  
+											<thead>
+												<tr>
+													<td>Name</td>
+													<td>Artist</td>
+													<td>Genre</td>
+													<td>Song</td>
+												</tr>
+											</thead>
+											-->
+											<tbody>
+												<tr th:each="song : ${playlist.songs}">
+													<td th:text=${song.name}></td>
+													<!--  
+													<td th:text=${song.artist}></td>
+													<td th:text=${song.genre}></td>
+													-->
+													<td>
+														<audio controls="controls" controlslist="nodownload">
+															<source th:src=${song.link} type="audio/mpeg">
+														</audio>
+													</td>
+													
+												</tr>
+											</tbody>
+										</table>
+										
+									</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

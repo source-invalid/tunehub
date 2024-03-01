@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Playlist</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+	<script>
+        function validateForm() {
+            var selectedPlaylists = document.querySelectorAll('input[name="playlist_id"]:checked');
+            if (selectedPlaylists.length === 0) {
+                alert("Please select at least one playlist to delete.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub | Creator
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home' class="nav-menu">Home</a>
+			<a href='/manageSongs' class="nav-menu">Manage Songs</a>
+			<a href='/managePlaylists' class="active">Manage Playlists</a>
+			<a href="/map-about" class="nav-menu">About</a>
+			<a href="/map-account" class="nav-menu">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="card-div">
+				<h4>Manage Playlists</h4>
+				<div th:switch="${status}">
+					<div th:case="'EmptyList'">
+						<h4>You don't have any Playlists</h4>
+						<a href="/map-createPlaylist"><button class="div-btn">Create Playlist</button></a>
+					</div>
+					<div th:case="'PlaylistDeleted'">
+						<h4>Playlist(s) Deleted.</h4>
+						<a href='/managePlaylists'><button class="div-btn">View Playlists</button></a>
+					</div>
+					<div  th:case="*">
+							<form action="/deletePlaylists" method="post" onsubmit="return validateForm()" id="form">
+								<label>Select playlists to delete :</label>
+								<div class="table-div">
+									<div th:each="playlist : ${playlists}">
+										<input type="checkbox" th:name="playlist_id" th:value="${playlist.id}" />
+										<label th:text="${playlist.name}"></label>
+									</div>
+									
+								</div>
+								<input type="submit" value="Delete" class="div-btn"/>
+							</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</body>
+</html>

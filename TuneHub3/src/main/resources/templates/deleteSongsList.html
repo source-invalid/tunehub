@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Songs</title>
+<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+<link th:href="@{/styles/body.css}" rel="stylesheet" />
+<script>
+        function validateForm() {
+            var selectedSongs = document.querySelectorAll('input[name="song_id"]:checked');
+            if (selectedSongs.length === 0) {
+                alert("Please select at least one song to delete.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub | Creator
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home' class="nav-menu">Home</a>
+			<a href='/manageSongs' class="active">Manage Songs</a>
+			<a href='/managePlaylists' class="nav-menu">Manage Playlists</a>
+			<a href="/map-about" class="nav-menu">About</a>
+			<a href="/map-account" class="nav-menu">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="card-div">
+				<h3>Your Songs</h3>
+				<div th:switch="${status}">
+		
+					<div th:case="'EmptyList'">
+						<h4>You don't have any songs.</h4>
+						<a href="/map-addSong"><button class="div-btn">Add Song</button></a>
+					</div>
+					
+					<div th:case="'SongDeleted'">
+						<h4>Song(s) Deleted.</h4>
+						<a href='/manageSongs'><button class="div-btn">Manage Songs</button></a>
+					</div>
+					
+					<div th:case="*">
+						
+						<form action="/deleteSongs" method="post" onsubmit="return validateForm()" id="form">
+							<label>Select songs to delete :</label>
+							<div class="table-div">
+								<div th:each="song : ${songslist}">
+									<input type="checkbox" th:name="song_id" th:value="${song.id}" />
+									<label th:text="${song.name}"></label>
+								</div>
+								
+							</div>
+							<input type="submit" id="submit-btn" value="Delete" class="div-btn"/>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

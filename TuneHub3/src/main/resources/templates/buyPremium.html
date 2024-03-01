@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+	<title>Buy Premium</title>
+	<link th:href="@{/styles/navigation.css}" rel="stylesheet" />
+	<link th:href="@{/styles/body.css}" rel="stylesheet" />
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+	<nav class="navigation-bar">
+		<div class="brandName">
+			TuneHub
+		</div>
+		<div class="navigation-element">
+			<a href='/map-home'  class="nav-menu">Home</a>
+			<a href='/exploreSongs'  class="active">Songs</a>
+			<a href='/explorePlaylists'  class="active">Playlists</a>
+			<a href='/exploreFavourites'  class="active">Favourites</a>
+			<a href="/map-about"  class="nav-menu">About</a>
+			<a href="/map-account"  class="nav-menu">Account</a>
+			<a href="/logout"><button class="nav-menu-btn">Logout</button></a>
+		</div>
+	</nav>
+	<div class="main-body">
+		<div id="main-body-cover">
+			<div class="card-div">
+				<div th:switch="${status}">
+					<div th:case="'PaymentSuccess'">
+						<h2>Payment Successful</h2>
+						<h3>Congratulations!</h3>
+						<h3>You are now a premium member.</h3>
+						<div>
+							<a href='/exploreSongs'><button class="div-btn">Listen Now</button></a>
+						</div>
+					</div>
+					<div th:case="'PaymentFailed'">
+						<h2>Payment Failed</h2>
+						<div>
+							<a href='/map-buyPremium'><button class="div-btn">Try again</button></a>
+							<br/><br/>
+							<a href='/map-home'><button class="div-btn">Home</button></a>
+						</div>
+					</div>
+					<div th:case="*">
+						<h3>Buy premium today.</h3>
+						<br/>
+						<p>Your are not a premium member of tunehub. Buy premium today and enjoy your favourite tunes.</p>
+						<br/>
+						<form id="payment-form" >
+					        <button type="submit" class="buy-button">Get Premium</button>
+					    </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+		    $(".buy-button").click(function(e) {
+		        e.preventDefault();
+		        var form = $(this).closest('form');
+		        
+		        
+		        createOrder();
+		    });
+		});
+		
+		function createOrder() {
+			
+		    $.post("/createOrder")
+		        .done(function(order) {
+		            order = JSON.parse(order);
+		            var options = {
+		                "key": "rzp_test_V2gQgZssVZyyZq",
+		                "amount": order.amount_due.toString(),
+		                "currency": "INR",
+		                "name": "Tune Hub",
+		                "description": "Test Transaction",
+		                "order_id": order.id,
+		                "handler": function (response) {
+		                    verifyPayment(response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
+		                },
+		                "prefill": {
+		                    "name": "Your Name",
+		                    "email": "test@example.com",
+		                    "contact": "9999999999"
+		                },
+		                "notes": {
+		                    "address": "Your Address"
+		                },
+		                "theme": {
+		                    "color": "#F37254"
+		                }
+		            };
+		            var rzp1 = new Razorpay(options);
+		            rzp1.open();
+		        })
+		        .fail(function(error) {
+		            console.error("Error:", error);
+		        });
+		}
+		
+		function verifyPayment(orderId, paymentId, signature) {
+		     $.post("/verify", { orderId: orderId, paymentId: paymentId, signature: signature })
+		         .done(function(isValid) {
+		             if (isValid) {
+		                 alert("Payment successful");
+		                 window.location.href = 'payment-success';
+		             } else {
+		                 alert("Payment failed");
+		                 window.location.href = 'payment-failure';
+		             }
+		         })
+		         .fail(function(error) {
+		             console.error("Error:", error);
+		         });
+		}
+	</script>
+</body>
+</html>
